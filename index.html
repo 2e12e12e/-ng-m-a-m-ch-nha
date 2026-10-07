@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phòng thí nghiệm ảo - Đường mía & Mạch nha</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #17352a;
+    background: linear-gradient(135deg, #e9f8ef, #fff8e5);
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(135deg, #087443, #2aad6b);
+    color: white;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.15);
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: auto;
+}
+
+h1 {
+    margin: 0 0 8px;
+    font-size: 38px;
+}
+
+header p {
+    margin: 0;
+    font-size: 17px;
+}
+
+.info-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.info {
+    background: rgba(255,255,255,.18);
+    padding: 9px 15px;
+    border-radius: 20px;
+}
+
+/* MAIN */
+main {
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+/* TABS */
+.tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.tab {
+    border: none;
+    padding: 13px 20px;
+    border-radius: 12px;
+    background: #d9ebe1;
+    color: #176340;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: #168553;
+    color: white;
+}
+
+/* PANEL */
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: block;
+}
+
+/* CARD */
+.grid {
+    display: grid;
+    grid-template-columns: 1.5fr .8fr;
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(30,80,55,.12);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+/* STEPS */
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 13px;
+    margin-top: 20px;
+}
+
+.step {
+    border: 2px solid #d9e9e0;
+    background: #fbfefc;
+    border-radius: 15px;
+    padding: 15px;
+    min-height: 155px;
+    transition: .3s;
+}
+
+.step.current {
+    border-color: #e3a52b;
+    box-shadow: 0 0 0 4px #fff0c8;
+    transform: translateY(-3px);
+}
+
+.step.done {
+    background: #edf9f1;
+    border-color: #42a86d;
+}
+
+.step-number {
+    width: 35px;
+    height: 35px;
+    background: #d8f0e1;
+    color: #147044;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.step h3 {
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.step p {
+    color: #60766d;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* BUTTON */
+.action {
+    margin-top: 15px;
+    border: none;
+    background: #198655;
+    color: white;
+    padding: 13px 18px;
+    border-radius: 11px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.action:hover {
+    background: #126c43;
+}
+
+.action:disabled {
+    opacity: .5;
+}
+
+/* CONTROL */
+.control {
+    background: #f3f9f5;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.control label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+input[type=range] {
+    width: 100%;
+}
+
+/* CONSOLE */
+.console {
+    background: #12231c;
+    color: #c9f8d9;
+    border-radius: 13px;
+    padding: 15px;
+    min-height: 180px;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow: auto;
+}
+
+.progress {
+    height: 14px;
+    background: #e5eee9;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg,#2aad6b,#e1a72b);
+    transition: .5s;
+}
+
+/* RESULT */
+.result {
+    padding: 13px;
+    margin-top: 12px;
+    background: #edf8f1;
+    border-radius: 10px;
+}
+
+.warning {
+    background: #fff4d8;
+    color: #77580c;
+}
+
+.success {
+    background: #e7f8ed;
+    color: #17673e;
+}
+
+/* GAME */
+.game {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.game-card {
+    min-height: 120px;
+    border: 2px solid #dce9e2;
+    border-radius: 14px;
+    background: white;
+    padding: 16px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.game-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(30,80,55,.12);
+}
+
+.game-card strong {
+    display: block;
+    margin-bottom: 7px;
+}
+
+/* QUIZ */
+.question {
+    border: 1px solid #dce9e2;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 15px;
+}
+
+.question p {
+    font-weight: bold;
+}
+
+.question label {
+    display: block;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.question label:hover {
+    background: #eef8f2;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #60756d;
+}
+
+/* RESPONSIVE */
+@media(max-width:800px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+}
+
+@media(max-width:500px) {
+    .game {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+
+        <h1>🧪 Phòng thí nghiệm ảo</h1>
+
+        <p>
+            Khám phá quy trình sản xuất
+            <b>đường mía</b> và <b>mạch nha</b>
+        </p>
+
+        <div class="info-bar">
+
+            <div class="info">
+                ⭐ Điểm:
+                <b id="score">0</b>
+            </div>
+
+            <div class="info">
+                🏆 Huy hiệu:
+                <b id="badge">Chưa có</b>
+            </div>
+
+            <div class="info">
+                🧫 Mẻ thí nghiệm:
+                <b>#001</b>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+
+<main>
+
+<!-- TAB -->
+<div class="tabs">
+
+    <button class="tab active"
+            onclick="openTab('sugar',this)">
+        🌱 Sản xuất đường mía
+    </button>
+
+    <button class="tab"
+            onclick="openTab('malt',this)">
+        🌾 Sản xuất mạch nha
+    </button>
+
+    <button class="tab"
+            onclick="openTab('game',this)">
+        🎮 Trò chơi
+    </button>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- ĐƯỜNG MÍA -->
+<!-- ===================================================== -->
+
+<section id="sugar" class="panel active">
+
+<div class="grid">
+
+<div class="card">
+
+<h2>🌱 Quy trình sản xuất đường mía</h2>
+
+<p>
+Mục tiêu: biến cây mía thành các tinh thể đường sucrose.
+Hãy thực hiện đúng thứ tự các công đoạn.
+</p>
+
+<div class="steps">
+
+<div class="step" id="sugar1">
+    <div class="step-number">1</div>
+    <h3>Thu hoạch & làm sạch</h3>
+    <p>
+        Mía được thu hoạch, loại bỏ đất,
+        lá và tạp chất.
+    </p>
+</div>
+
+<div class="step" id="sugar2">
+    <div class="step-number">2</div>
+    <h3>Ép mía</h3>
+    <p>
+        Nghiền và ép mía để thu
+        dịch mía.
+    </p>
+</div>
+
+<div class="step" id="sugar3">
+    <div class="step-number">3</div>
+    <h3>Làm sạch dịch</h3>
+    <p>
+        Loại bớt tạp chất và điều chỉnh
+        điều kiện của dịch mía.
+    </p>
+</div>
+
+<div class="step" id="sugar4">
+    <div class="step-number">4</div>
+    <h3>Cô đặc</h3>
+    <p>
+        Bốc hơi nước để tăng nồng độ
+        đường trong dịch.
+    </p>
+</div>
+
+<div class="step" id="sugar5">
+    <div class="step-number">5</div>
+    <h3>Kết tinh</h3>
+    <p>
+        Điều khiển quá trình để
+        sucrose tạo tinh thể.
+    </p>
+</div>
+
+<div class="step" id="sugar6">
+    <div class="step-number">6</div>
+    <h3>Ly tâm & sấy</h3>
+    <p>
+        Tách tinh thể đường khỏi mật
+        và làm khô sản phẩm.
+    </p>
+</div>
+
+</div>
+
+<button class="action"
+        onclick="nextSugar()"
+        id="sugarButton">
+    ▶ Bắt đầu công đoạn 1
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>⚙️ Bảng điều khiển</h2>
+
+<div class="control">
+
+<label>
+    <span>Nhiệt độ</span>
+    <b id="temperatureValue">80°C</b>
+</label>
+
+<input type="range"
+       min="40"
+       max="120"
+       value="80"
+       oninput="changeTemperature(this.value)">
+
+</div>
+
+
+<div class="control">
+
+<label>
+    <span>Độ trong dịch</span>
+    <b id="clarityValue">50%</b>
+</label>
+
+<input type="range"
+       min="0"
+       max="100"
+       value="50"
+       oninput="changeClarity(this.value)">
+
+</div>
+
+
+<div class="console" id="sugarConsole">
+
+[HỆ THỐNG]
+
+Phòng thí nghiệm đã sẵn sàng.
+
+Mẫu:
+Dịch mía
+
+Trạng thái:
+Chờ thực hiện công đoạn 1...
+
+</div>
+
+
+<div class="progress">
+    <div class="progress-bar"
+         id="sugarProgress"></div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- MẠCH NHA -->
+<!-- ===================================================== -->
+
+<section id="malt" class="panel">
+
+<div class="grid">
+
+<div class="card">
+
+<h2>🌾 Quy trình sản xuất mạch nha</h2>
+
+<p>
+Trong thí nghiệm này, enzyme amylase tham gia
+thủy phân tinh bột thành các đường đơn giản hơn,
+trong đó có maltose.
+</p>
+
+<div class="steps">
+
+<div class="step" id="malt1">
+    <div class="step-number">1</div>
+    <h3>Nảy mầm</h3>
+    <p>
+        Hạt ngũ cốc được ngâm và cho
+        nảy mầm để tạo/hoạt hóa enzyme.
+    </p>
+</div>
+
+<div class="step" id="malt2">
+    <div class="step-number">2</div>
+    <h3>Sấy & nghiền</h3>
+    <p>
+        Dừng quá trình nảy mầm,
+        làm khô và nghiền malt.
+    </p>
+</div>
+
+<div class="step" id="malt3">
+    <div class="step-number">3</div>
+    <h3>Đường hóa</h3>
+    <p>
+        Amylase thủy phân tinh bột
+        thành các đường nhỏ hơn.
+    </p>
+</div>
+
+<div class="step" id="malt4">
+    <div class="step-number">4</div>
+    <h3>Lọc</h3>
+    <p>
+        Tách dịch đường khỏi
+        phần bã malt.
+    </p>
+</div>
+
+<div class="step" id="malt5">
+    <div class="step-number">5</div>
+    <h3>Cô đặc</h3>
+    <p>
+        Làm giảm lượng nước để
+        thu siro mạch nha.
+    </p>
+</div>
+
+</div>
+
+<button class="action"
+        onclick="nextMalt()"
+        id="maltButton">
+    ▶ Bắt đầu công đoạn 1
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧬 Thí nghiệm enzyme</h2>
+
+<div class="control">
+
+<label>
+    <span>Nhiệt độ đường hóa</span>
+    <b id="maltTemperature">65°C</b>
+</label>
+
+<input type="range"
+       min="45"
+       max="80"
+       value="65"
+       oninput="checkMalt()">
+
+</div>
+
+
+<div class="control">
+
+<label>
+    <span>Thời gian</span>
+    <b id="maltTime">45 phút</b>
+</label>
+
+<input type="range"
+       min="10"
+       max="90"
+       value="45"
+       oninput="checkMalt()">
+
+</div>
+
+
+<div id="maltResult"
+     class="result success">
+
+✓ Điều kiện mô phỏng đang phù hợp
+cho hoạt động của enzyme amylase.
+
+</div>
+
+
+<div class="console">
+
+ENZYME LAB
+
+Tinh bột
+   ↓
+Amylase
+   ↓
+Các đường nhỏ hơn
+   ↓
+Maltose + các đường khác
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- GAME -->
+<!-- ===================================================== -->
+
+<section id="game" class="panel">
+
+<div class="card">
+
+<h2>🎮 Trò chơi: Sắp xếp quy trình</h2>
+
+<p>
+Hãy chọn các công đoạn theo đúng thứ tự.
+Mỗi câu đúng được cộng điểm.
+</p>
+
+<div id="gameCards"
+     class="game">
+
+</div>
+
+<div id="gameMessage"
+     class="result">
+
+Hãy chọn công đoạn đầu tiên.
+
+</div>
+
+<button class="action"
+        onclick="resetGame()">
+
+🔄 Chơi lại
+
+</button>
+
+</div>
+
+
+<br>
+
+
+<div class="card">
+
+<h2>📝 Kiểm tra nhanh</h2>
+
+
+<div class="question">
+
+<p>
+1. Công đoạn nào làm giảm lượng nước
+để tăng nồng độ đường?
+</p>
+
+<label>
+<input type="radio"
+       name="q1"
+       value="a">
+
+Ép mía
+</label>
+
+<label>
+<input type="radio"
+       name="q1"
+       value="b">
+
+Cô đặc
+</label>
+
+<label>
+<input type="radio"
+       name="q1"
+       value="c">
+
+Nảy mầm
+</label>
+
+</div>
+
+
+<div class="question">
+
+<p>
+2. Enzyme quan trọng trong quá trình
+đường hóa tinh bột của mạch nha là gì?
+</p>
+
+<label>
+<input type="radio"
+       name="q2"
+       value="a">
+
+Amylase
+</label>
+
+<label>
+<input type="radio"
+       name="q2"
+       value="b">
+
+Cellulase
+</label>
+
+<label>
+<input type="radio"
+       name="q2"
+       value="c">
+
+Lactase
+</label>
+
+</div>
+
+
+<button class="action"
+        onclick="checkQuiz()">
+
+📝 Chấm điểm
+
+</button>
+
+
+<div id="quizResult"
+     class="result">
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+🧪 Phòng thí nghiệm ảo — Đường mía & Mạch nha
+
+<br>
+
+Dùng cho học tập và mô phỏng giáo dục.
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   HỆ THỐNG ĐIỂM
+===================================================== */
+
+let score = 0;
+
+function addScore(points) {
+
+    score += points;
+
+    document.getElementById("score")
+        .textContent = score;
+
+    if(score >= 70) {
+
+        document.getElementById("badge")
+            .textContent = "🏆 Nhà hóa học trẻ";
+
+    } else if(score >= 40) {
+
+        document.getElementById("badge")
+            .textContent = "🧪 Kỹ thuật viên";
+
+    } else if(score >= 20) {
+
+        document.getElementById("badge")
+            .textContent = "🌱 Trợ lý phòng thí nghiệm";
+    }
+}
+
+
+/* =====================================================
+   CHUYỂN TAB
+===================================================== */
+
+function openTab(tabName, button) {
+
+    document
+        .querySelectorAll(".panel")
+        .forEach(panel => {
+            panel.classList.remove("active");
+        });
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(tab => {
+            tab.classList.remove("active");
+        });
+
+    document
+        .getElementById(tabName)
+        .classList.add("active");
+
+    button.classList.add("active");
+}
+
+
+/* =====================================================
+   ĐƯỜNG MÍA
+===================================================== */
+
+let sugarStep = 0;
+
+const sugarNames = [
+
+    "Thu hoạch & làm sạch",
+
+    "Ép mía",
+
+    "Làm sạch dịch",
+
+    "Cô đặc",
+
+    "Kết tinh",
+
+    "Ly tâm & sấy"
+
+];
+
+
+function nextSugar() {
+
+    if(sugarStep >= 6) {
+
+        document.getElementById("sugarButton")
+            .textContent = "🎉 Đã hoàn thành";
+
+        return;
+    }
+
+    sugarStep++;
+
+    let current =
+        document.getElementById(
+            "sugar" + sugarStep
+        );
+
+    current.classList.add("done");
+
+    current.classList.add("current");
+
+    if(sugarStep > 1) {
+
+        document
+            .getElementById(
+                "sugar" + (sugarStep - 1)
+            )
+            .classList.remove("current");
+    }
+
+    let percent =
+        sugarStep / 6 * 100;
+
+    document.getElementById(
+        "sugarProgress"
+    ).style.width = percent + "%";
+
+
+    let consoleBox =
+        document.getElementById(
+            "sugarConsole"
+        );
+
+    consoleBox.innerHTML +=
+        "<br>✓ Công đoạn " +
+        sugarStep +
+        ": " +
+        sugarNames[sugarStep - 1];
+
+
+    addScore(5);
+
+
+    if(sugarStep < 6) {
+
+        document.getElementById(
+            "sugarButton"
+        ).textContent =
+            "▶ Thực hiện công đoạn " +
+            (sugarStep + 1);
+
+    } else {
+
+        document.getElementById(
+            "sugarButton"
+        ).textContent =
+            "🎉 Hoàn thành quy trình";
+
+        addScore(10);
+    }
+}
+
+
+/* =====================================================
+   ĐIỀU KHIỂN ĐƯỜNG MÍA
+===================================================== */
+
+function changeTemperature(value) {
+
+    document.getElementById(
+        "temperatureValue"
+    ).textContent = value + "°C";
+}
+
+
+function changeClarity(value) {
+
+    document.getElementById(
+        "clarityValue"
+    ).textContent = value + "%";
+}
+
+
+/* =====================================================
+   MẠCH NHA
+===================================================== */
+
+let maltStep = 0;
+
+const maltNames = [
+
+    "Nảy mầm",
+
+    "Sấy & nghiền",
+
+    "Đường hóa",
+
+    "Lọc",
+
+    "Cô đặc"
+
+];
+
+
+function nextMalt() {
+
+    if(maltStep >= 5) {
+
+        document.getElementById(
+            "maltButton"
+        ).textContent =
+            "🎉 Đã hoàn thành";
+
+        return;
+    }
+
+    maltStep++;
+
+    let current =
+        document.getElementById(
+            "malt" + maltStep
+        );
+
+    current.classList.add("done");
+    current.classList.add("current");
+
+    if(maltStep > 1) {
+
+        document
+            .getElementById(
+                "malt" + (maltStep - 1)
+            )
+            .classList.remove("current");
+    }
+
+    addScore(5);
+
+    if(maltStep < 5) {
+
+        document.getElementById(
+            "maltButton"
+        ).textContent =
+            "▶ Thực hiện công đoạn " +
+            (maltStep + 1);
+
+    } else {
+
+        document.getElementById(
+            "maltButton"
+        ).textContent =
+            "🎉 Hoàn thành quy trình";
+
+        addScore(10);
+    }
+}
+
+
+/* =====================================================
+   THÍ NGHIỆM ENZYME
+===================================================== */
+
+function checkMalt() {
+
+    const sliders =
+        document.querySelectorAll(
+            "#malt input[type=range]"
+        );
+
+    const temperature =
+        Number(sliders[0].value);
+
+    const time =
+        Number(sliders[1].value);
+
+
+    document.getElementById(
+        "maltTemperature"
+    ).textContent =
+        temperature + "°C";
+
+
+    document.getElementById(
+        "maltTime"
+    ).textContent =
+        time + " phút";
+
+
+    const result =
+        document.getElementById(
+            "maltResult"
+        );
+
+
+    /*
+       Đây là vùng mô phỏng giáo dục,
+       không phải thông số vận hành công nghiệp.
+    */
+
+    if(
+        temperature >= 60 &&
+        temperature <= 70 &&
+        time >= 30 &&
+        time <= 60
+    ) {
+
+        result.className =
+            "result success";
+
+        result.innerHTML =
+            "✓ Điều kiện mô phỏng phù hợp " +
+            "cho hoạt động của enzyme amylase.";
+
+    } else {
+
+        result.className =
+            "result warning";
+
+        result.innerHTML =
+            "⚠ Điều kiện mô phỏng chưa tối ưu. " +
+            "Hãy thử nhiệt độ gần 65°C và " +
+            "thời gian khoảng 30–60 phút.";
+    }
+}
+
+
+/* =====================================================
+   GAME SẮP XẾP
+===================================================== */
+
+const gameData = [
+
+    {
+        name: "🌱 Làm sạch mía",
+        desc: "Chuẩn bị nguyên liệu",
+        order: 1
+    },
+
+    {
+        name: "⚙️ Ép mía",
+        desc: "Thu dịch mía",
+        order: 2
+    },
+
+    {
+        name: "🧪 Làm sạch dịch",
+        desc: "Loại bớt tạp chất",
+        order: 3
+    },
+
+    {
+        name: "🔥 Cô đặc",
+        desc: "Bốc hơi nước",
+        order: 4
+    },
+
+    {
+        name: "💎 Kết tinh",
+        desc: "Tạo tinh thể sucrose",
+        order: 5
+    },
+
+    {
+        name: "🌀 Ly tâm & sấy",
+        desc: "Thu đường thành phẩm",
+        order: 6
+    }
+
+];
+
+let gameOrder = 0;
+
+
+function createGame() {
+
+    const container =
+        document.getElementById(
+            "gameCards"
+        );
+
+    container.innerHTML = "";
+
+    let shuffled =
+        [...gameData].sort(
+            () => Math.random() - 0.5
+        );
+
+
+    shuffled.forEach(item => {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "game-card";
+
+        button.innerHTML =
+            "<strong>" +
+            item.name +
+            "</strong>" +
+            "<span>" +
+            item.desc +
+            "</span>";
+
+
+        button.onclick = function() {
+
+            if(item.order === gameOrder + 1) {
+
+                gameOrder++;
+
+                button.disabled = true;
+
+                button.style.opacity = "0.4";
+
+                addScore(10);
+
+
+                document.getElementById(
+                    "gameMessage"
+                ).className =
+                    "result success";
+
+                document.getElementById(
+                    "gameMessage"
+                ).textContent =
+                    "✓ Chính xác! Hãy chọn công đoạn tiếp theo.";
+
+
+                if(gameOrder === 6) {
+
+                    document.getElementById(
+                        "gameMessage"
+                    ).textContent =
+                        "🏆 Xuất sắc! Bạn đã hoàn thành quy trình đường mía!";
+
+                    addScore(10);
+                }
+
+            } else {
+
+                document.getElementById(
+                    "gameMessage"
+                ).className =
+                    "result warning";
+
+                document.getElementById(
+                    "gameMessage"
+                ).textContent =
+                    "✗ Chưa đúng. Hãy suy nghĩ lại thứ tự công đoạn.";
+            }
+        };
+
+
+        container.appendChild(button);
+
+    });
+}
+
+
+function resetGame() {
+
+    gameOrder = 0;
+
+    document.getElementById(
+        "gameMessage"
+    ).className = "result";
+
+    document.getElementById(
+        "gameMessage"
+    ).textContent =
+        "Hãy chọn công đoạn đầu tiên.";
+
+    createGame();
+}
+
+
+createGame();
+
+
+/* =====================================================
+   QUIZ
+===================================================== */
+
+function checkQuiz() {
+
+    let correct = 0;
+
+
+    const q1 =
+        document.querySelector(
+            'input[name="q1"]:checked'
+        );
+
+    const q2 =
+        document.querySelector(
+            'input[name="q2"]:checked'
+        );
+
+
+    if(q1 && q1.value === "b") {
+
+        correct++;
+    }
+
+
+    if(q2 && q2.value === "a") {
+
+        correct++;
+    }
+
+
+    addScore(correct * 10);
+
+
+    const result =
+        document.getElementById(
+            "quizResult"
+        );
+
+
+    if(correct === 2) {
+
+        result.className =
+            "result success";
+
+        result.textContent =
+            "🎉 Chính xác 2/2! Bạn nắm rất tốt kiến thức.";
+
+    } else {
+
+        result.className =
+            "result warning";
+
+        result.textContent =
+            "Bạn đúng " +
+            correct +
+            "/2 câu. Hãy xem lại các công đoạn và thử lại.";
+    }
+}
+
+</script>
+
+</body>
+</html>
